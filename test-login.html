@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Login Debug</title>
+</head>
+<body>
+    <h1>School Admin Login Debug Test</h1>
+    
+    <div>
+        <h3>Test 1: Check Current localStorage</h3>
+        <button onclick="checkLocalStorage()">Check localStorage</button>
+        <pre id="storage-result"></pre>
+    </div>
+    
+    <div>
+        <h3>Test 2: Clear localStorage</h3>
+        <button onclick="clearStorage()">Clear All Data</button>
+    </div>
+    
+    <div>
+        <h3>Test 3: Test Login</h3>
+        <input type="email" id="email" placeholder="Email" value="aakash@yomail.com">
+        <input type="password" id="password" placeholder="Password" value="Abhishek@123">
+        <button onclick="testLogin()">Test Login</button>
+        <pre id="login-result"></pre>
+    </div>
+    
+    <script>
+        function checkLocalStorage() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            const userRole = localStorage.getItem('userRole');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            let result = '=== localStorage Contents ===\n\n';
+            result += 'Token: ' + (token ? 'Present (length: ' + token.length + ')' : 'Missing') + '\n';
+            result += 'User Role: ' + (userRole || 'Missing') + '\n';
+            result += 'User Email: ' + (userEmail || 'Missing') + '\n\n';
+            
+            if (user) {
+                result += '✅ User Object Found:\n';
+                const userData = JSON.parse(user);
+                result += JSON.stringify(userData, null, 2) + '\n\n';
+                result += 'School ID: ' + (userData.schoolId || 'MISSING!') + '\n';
+            } else {
+                result += '❌ User Object NOT Found!\n';
+            }
+            
+            document.getElementById('storage-result').textContent = result;
+        }
+        
+        function clearStorage() {
+            localStorage.clear();
+            alert('✅ localStorage cleared!');
+            checkLocalStorage();
+        }
+        
+        async function testLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('login-result');
+            
+            resultDiv.textContent = '🔄 Logging in...';
+            
+            try {
+                const response = await fetch('http://localhost:3001/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                        role: 'school_admin'
+                    }),
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    let result = '=== Login Response ===\n\n';
+                    result += 'Status: ✅ Success\n\n';
+                    result += 'Access Token: ' + data.access_token.substring(0, 50) + '...\n\n';
+                    result += 'User Data:\n' + JSON.stringify(data.user, null, 2) + '\n\n';
+                    result += 'School ID in response: ' + (data.user?.schoolId || 'MISSING!') + '\n\n';
+                    
+                    // Store data
+                    localStorage.setItem('token', data.access_token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    localStorage.setItem('userRole', 'school_admin');
+                    localStorage.setItem('userEmail', email);
+                    
+                    result += '=== Data Stored ===\n\n';
+                    result += '✅ Token stored\n';
+                    result += '✅ User object stored\n';
+                    result += '✅ Additional fields stored\n\n';
+                    
+                    // Verify storage
+                    const storedUser = JSON.parse(localStorage.getItem('user'));
+                    result += '=== Verification ===\n\n';
+                    result += 'Stored User School ID: ' + (storedUser.schoolId || 'MISSING!') + '\n';
+                    
+                    if (storedUser.schoolId) {
+                        result += '\n✅ SUCCESS! You can now use Add Teacher page.\n';
+                    } else {
+                        result += '\n❌ PROBLEM: School ID not in response!\n';
+                        result += 'Check backend auth.service.ts login() method.\n';
+                    }
+                    
+                    resultDiv.textContent = result;
+                } else {
+                    const errorData = await response.json();
+                    resultDiv.textContent = '❌ Login Failed:\n' + JSON.stringify(errorData, null, 2);
+                }
+            } catch (error) {
+                resultDiv.textContent = '❌ Network Error:\n' + error.message;
+            }
+        }
+        
+        // Auto-check on load
+        window.onload = checkLocalStorage;
+    </script>
+</body>
+</html>
+
+
