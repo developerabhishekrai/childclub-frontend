@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Save, User, Mail, Phone, MapPin, Calendar, Users, Heart } from 'lucide-react';
 import Link from 'next/link';
@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 export default function CreateStudentPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [teacherData, setTeacherData] = useState<any>(null);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -40,7 +41,46 @@ export default function CreateStudentPage() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // Fetch teacher data on component mount
+  useEffect(() => {
+    const fetchTeacherData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId');
+        
+        if (!token || !userId) {
+          router.push('/teacher/login');
+          return;
+        }
+
+        const teacherResponse = await fetch(`http://localhost:3001/teachers/${userId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!teacherResponse.ok) {
+          throw new Error('Failed to fetch teacher data');
+        }
+
+        const data = await teacherResponse.json();
+        setTeacherData(data);
+      } catch (error) {
+        console.error('Error fetching teacher data:', error);
+        Swal.fire('Error', 'Failed to load teacher data', 'error');
+      }
+    };
+
+    fetchTeacherData();
+  }, [router]);
+
   const validateForm = () => {
+    if (!teacherData) {
+      Swal.fire('Error', 'Please wait for teacher data to load', 'error');
+      return false;
+    }
+    
     if (!formData.firstName.trim()) {
       Swal.fire('Error', 'First name is required', 'error');
       return false;
@@ -79,19 +119,9 @@ export default function CreateStudentPage() {
         throw new Error('Authentication required');
       }
 
-      // First, get teacher's data to find schoolId and classId
-      const teacherResponse = await fetch(`http://localhost:3001/teachers/${userId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!teacherResponse.ok) {
-        throw new Error('Failed to fetch teacher information');
+      if (!teacherData) {
+        throw new Error('Teacher data not loaded');
       }
-
-      const teacherData = await teacherResponse.json();
 
       if (!teacherData.schoolId) {
         throw new Error('School information not found');
@@ -123,7 +153,7 @@ export default function CreateStudentPage() {
         previousSchool: formData.previousSchool || undefined,
         enrollNumber: formData.enrollNumber,
         schoolId: parseInt(teacherData.schoolId),
-        classId: selectedClassId,
+        classId: teacherData.classId,
       };
 
       console.log('Creating student:', studentData);
@@ -285,22 +315,15 @@ export default function CreateStudentPage() {
                       </div>
                       <div className="col-md-6">
                         <label className="form-label fw-semibold">
-                          Assign to Class <span className="text-danger">*</span>
+                          Assigned Class <span className="text-danger">*</span>
                         </label>
-                        <select
-                          value={selectedClassId || ''}
-                          onChange={(e) => setSelectedClassId(parseInt(e.target.value))}
-                          className="form-select form-select-lg"
-                          required
-                        >
-                          <option value="">Select Class</option>
-                          {teacherClasses.map((cls) => (
-                            <option key={cls.id} value={cls.id}>
-                              {cls.name || `${cls.grade}-${cls.section}`}
-                              {cls.isPrimary && ' ⭐'}
-                            </option>
-                          ))}
-                        </select>
+                        <input
+                          type="text"
+                          value={teacherData?.className || 'Loading...'}
+                          className="form-control form-control-lg"
+                          disabled
+                        />
+                        <small className="text-muted">Students will be assigned to your assigned class</small>
                       </div>
                       <div className="col-md-4">
                         <label className="form-label fw-semibold">Date of Birth</label>

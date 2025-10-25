@@ -13,6 +13,7 @@ interface Class {
 
 interface Student {
   id: number;
+  userId: number;
   firstName: string;
   lastName: string;
   enrollmentNumber: string;
@@ -196,7 +197,7 @@ export default function SchoolAdminAttendancePage() {
       }));
 
       await submitAttendance(attendance);
-    } else if (result.dismiss === Swal.DismissReason.cancel) {
+    } else if (result.dismiss === 'cancel') {
       // Cancel button (Custom Entry) clicked - Show custom form
       showCustomAttendanceForm();
     }
