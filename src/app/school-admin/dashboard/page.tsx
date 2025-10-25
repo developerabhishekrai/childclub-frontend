@@ -140,6 +140,13 @@ const customStyles = `
 `;
 
 // Types for our data
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
 interface Student {
   id: string;
   firstName: string;
@@ -150,6 +157,7 @@ interface Student {
   className?: string;
   currentClassId?: number;
   enrollmentDate: string;
+  user?: User;
 }
 
 interface Teacher {

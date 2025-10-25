@@ -364,7 +364,7 @@ export default function AddTeacherPage() {
         designation: formData.designation || undefined,
         subjects: formData.subjects,
         classIds: formData.classIds.length > 0 ? formData.classIds : undefined,
-        joiningDate: formData.joiningDate || undefined,
+        joiningDate: formData.joiningDate ? new Date(formData.joiningDate) : undefined,
         salary: formData.salary ? parseFloat(formData.salary) : undefined,
         emergencyContact: formData.emergencyContact || undefined,
       };

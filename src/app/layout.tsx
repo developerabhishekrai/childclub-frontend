@@ -11,7 +11,11 @@ export const metadata: Metadata = {
   description: 'Complete school management platform for schools, teachers, students, and super admin',
   keywords: ['school management', 'education', 'student portal', 'teacher dashboard'],
   authors: [{ name: 'ChildClub Team' }],
-  viewport: 'width=device-width, initial-scale=1',
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({

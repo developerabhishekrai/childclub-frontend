@@ -150,7 +150,7 @@ export default function TeacherAttendancePage() {
   const updateAttendance = (studentId: number, field: keyof AttendanceRecord, value: any) => {
     setAttendance(prev => {
       const newMap = new Map(prev);
-      const record = newMap.get(studentId) || { studentId, status: 'present' };
+      const record = newMap.get(studentId) || { studentId, status: 'present', mood: '', remarks: '' };
       newMap.set(studentId, { ...record, [field]: value });
       return newMap;
     });
@@ -161,7 +161,7 @@ export default function TeacherAttendancePage() {
       const newMap = new Map(prev);
       students.forEach((student: any) => {
         const userId = student.userId; // Use userId from users table
-        const record = newMap.get(userId) || { studentId: userId, status: 'present' };
+        const record = newMap.get(userId) || { studentId: userId, status: 'present', mood: '', remarks: '' };
         newMap.set(userId, { ...record, status });
       });
       return newMap;
@@ -424,7 +424,7 @@ export default function TeacherAttendancePage() {
                       <tbody>
                         {students.map((student: any) => {
                           const userId = student.userId; // Use userId from users table
-                          const record = attendance.get(userId) || { studentId: userId, status: 'present' };
+                          const record = attendance.get(userId) || { studentId: userId, status: 'present', mood: '', remarks: '' };
                           return (
                             <tr key={student.id}>
                               <td className="py-3 align-middle">

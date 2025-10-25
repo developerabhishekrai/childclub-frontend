@@ -94,7 +94,7 @@ export default function TeacherRegisterPage() {
         firstName: '', lastName: '', email: '', mobile: '', password: '', confirmPassword: '',
         dateOfBirth: '', address: '', city: '', state: '', country: 'India', postalCode: '',
         qualification: '', specialization: '', experienceYears: '', department: '', designation: '',
-        joiningDate: '', salary: '', emergencyContact: ''
+        joiningDate: '', salary: '', emergencyContact: '', termsAccepted: false
       });
       setErrors({});
       
