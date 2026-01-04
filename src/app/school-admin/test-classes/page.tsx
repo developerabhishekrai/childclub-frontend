@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { getStoredToken } from '@/lib/api';
+import { getStoredToken, API_BASE_URL } from '@/lib/api';
 
 interface Class {
   id: number;
@@ -38,7 +38,7 @@ export default function TestClassesPage() {
 
       // Test direct fetch
       console.log('Testing classes API...');
-      const response = await fetch('http://localhost:3001/classes', {
+      const response = await fetch(`${API_BASE_URL}/classes`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,

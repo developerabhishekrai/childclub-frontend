@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Calendar as CalendarIcon, Plus, Edit, Trash2, X, MapPin, Clock, AlertCircle } from 'lucide-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
+import { API_BASE_URL } from '@/lib/api';
 
 interface CalendarEvent {
   id: number;
@@ -68,7 +69,7 @@ export default function SchoolAdminCalendar() {
         return;
       }
 
-      const response = await fetch('http://localhost:3001/calendar', {
+      const response = await fetch(`${API_BASE_URL}/calendar`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -94,8 +95,8 @@ export default function SchoolAdminCalendar() {
       const token = localStorage.getItem('token');
       
       const url = editMode && currentEvent 
-        ? `http://localhost:3001/calendar/${currentEvent.id}`
-        : 'http://localhost:3001/calendar';
+        ? `${API_BASE_URL}/calendar/${currentEvent.id}`
+        : `${API_BASE_URL}/calendar`;
       
       const method = editMode ? 'PATCH' : 'POST';
 
@@ -160,7 +161,7 @@ export default function SchoolAdminCalendar() {
       try {
         const token = localStorage.getItem('token');
         
-        const response = await fetch(`http://localhost:3001/calendar/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/calendar/${id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`,

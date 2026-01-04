@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Search, Calendar, Clock, BookOpen, AlertCircle, CheckCircle, FileText, User } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_BASE_URL } from '@/lib/api';
 
 interface Assignment {
   id: number;
@@ -73,7 +74,7 @@ export default function StudentTasksPage() {
       console.log('Fetching assignments for student userId:', userId);
       
       // Fetch assignments assigned to this student
-      const response = await fetch(`http://localhost:3001/assignments/by-student/${userId}`, {
+      const response = await fetch(`${API_BASE_URL}/assignments/by-student/${userId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -84,7 +85,7 @@ export default function StudentTasksPage() {
         console.log('Fetched assignments:', data);
         
         // Fetch submissions for this student
-        const submissionsResponse = await fetch(`http://localhost:3001/submissions/student/${userId}`, {
+        const submissionsResponse = await fetch(`${API_BASE_URL}/submissions/student/${userId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -157,7 +158,7 @@ export default function StudentTasksPage() {
         const formData = new FormData();
         formData.append('file', file);
 
-        const response = await fetch('http://localhost:3001/uploads/submission', {
+        const response = await fetch(`${API_BASE_URL}/uploads/submission`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -199,7 +200,7 @@ export default function StudentTasksPage() {
 
       if (submissionId) {
         // Update existing submission
-        const response = await fetch(`http://localhost:3001/submissions/${submissionId}`, {
+        const response = await fetch(`${API_BASE_URL}/submissions/${submissionId}`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -216,7 +217,7 @@ export default function StudentTasksPage() {
         }
       } else {
         // Create new submission with status
-        const response = await fetch('http://localhost:3001/submissions', {
+        const response = await fetch(`${API_BASE_URL}/submissions`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -259,7 +260,7 @@ export default function StudentTasksPage() {
         userId = user.id?.toString();
       }
 
-      const response = await fetch('http://localhost:3001/submissions', {
+      const response = await fetch(`${API_BASE_URL}/submissions`, {
         method: isEditing && selectedTask.submissionId ? 'PUT' : 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -275,7 +276,7 @@ export default function StudentTasksPage() {
         })
       }).then(res => {
         if (isEditing && selectedTask.submissionId) {
-          return fetch(`http://localhost:3001/submissions/${selectedTask.submissionId}`, {
+          return fetch(`${API_BASE_URL}/submissions/${selectedTask.submissionId}`, {
             method: 'PUT',
             headers: {
               'Authorization': `Bearer ${token}`,

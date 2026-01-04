@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { API_BASE_URL } from '@/lib/api'
 
 export default function StudentRegister() {
   const [formData, setFormData] = useState({
@@ -76,7 +77,7 @@ export default function StudentRegister() {
     setIsLoading(true)
 
     try {
-      const response = await fetch('http://localhost:3001/auth/register', {
+      const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

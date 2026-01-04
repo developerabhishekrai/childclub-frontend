@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, FileText, Download, Eye, Filter, Search, MessageSquare, Send, Award, CheckCircle } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_BASE_URL } from '@/lib/api';
 
 interface Submission {
   id: number;
@@ -60,7 +61,7 @@ export default function SchoolAdminSubmissionsPage() {
 
       // School admin can see all submissions from their school
       const schoolId = user.schoolId || user.id;
-      const response = await fetch(`http://localhost:3001/submissions/school/${schoolId}`, {
+      const response = await fetch(`${API_BASE_URL}/submissions/school/${schoolId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -137,7 +138,7 @@ export default function SchoolAdminSubmissionsPage() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3001/submissions/${selectedSubmission.id}/review`, {
+      const response = await fetch(`${API_BASE_URL}/submissions/${selectedSubmission.id}/review`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -495,7 +496,7 @@ export default function SchoolAdminSubmissionsPage() {
                           </div>
                           <div>
                             <a
-                              href={`http://localhost:3001${file.url}`}
+                              href={`${API_BASE_URL}${file.url}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="btn btn-sm btn-outline-primary me-2"
@@ -503,7 +504,7 @@ export default function SchoolAdminSubmissionsPage() {
                               <Eye size={14} className="me-1" /> View
                             </a>
                             <a
-                              href={`http://localhost:3001${file.url}`}
+                              href={`${API_BASE_URL}${file.url}`}
                               download={file.originalName}
                               className="btn btn-sm btn-outline-success"
                             >

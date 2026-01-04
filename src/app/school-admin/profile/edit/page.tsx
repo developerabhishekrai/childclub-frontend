@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Link from 'next/link';
-import { getStoredUser, getStoredToken } from '@/lib/api';
+import { getStoredUser, getStoredToken, API_BASE_URL } from '@/lib/api';
 import Swal from 'sweetalert2';
 
 const customStyles = `
@@ -185,7 +185,7 @@ export default function EditProfilePage() {
       setUserData(user);
       
       // Fetch user profile
-      const profileResponse = await fetch('http://localhost:3001/auth/profile', {
+      const profileResponse = await fetch(`${API_BASE_URL}/auth/profile`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -201,7 +201,7 @@ export default function EditProfilePage() {
       }
       
       // Fetch school data
-      const schoolResponse = await fetch('http://localhost:3001/schools/me', {
+      const schoolResponse = await fetch(`${API_BASE_URL}/schools/me`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -250,7 +250,7 @@ export default function EditProfilePage() {
       }
 
       // Update user personal info
-      const userUpdateResponse = await fetch('http://localhost:3001/auth/profile', {
+      const userUpdateResponse = await fetch(`${API_BASE_URL}/auth/profile`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -270,7 +270,7 @@ export default function EditProfilePage() {
       
       // Update school info
       if (schoolData && schoolData.id) {
-        const schoolUpdateResponse = await fetch(`http://localhost:3001/schools/${schoolData.id}`, {
+        const schoolUpdateResponse = await fetch(`${API_BASE_URL}/schools/${schoolData.id}`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,

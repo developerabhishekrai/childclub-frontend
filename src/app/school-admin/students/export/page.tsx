@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Download, FileText, Users, ArrowLeft, CheckCircle, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
+import { API_BASE_URL } from '@/lib/api';
 
 export default function ExportStudentsPage() {
   const [loading, setLoading] = useState(false);
@@ -19,7 +20,7 @@ export default function ExportStudentsPage() {
       const token = localStorage.getItem('token');
       if (!token) return;
 
-      const response = await fetch('http://localhost:3001/students', {
+      const response = await fetch(`${API_BASE_URL}/students`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -48,7 +49,7 @@ export default function ExportStudentsPage() {
         return;
       }
 
-      const response = await fetch('http://localhost:3001/students/export/csv', {
+      const response = await fetch(`${API_BASE_URL}/students/export/csv`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,

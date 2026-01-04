@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Save } from 'lucide-react';
-import { apiGet, getStoredToken } from '@/lib/api';
+import { apiGet, getStoredToken, API_BASE_URL } from '@/lib/api';
 
 interface Class {
   id: number;
@@ -175,7 +175,7 @@ export default function EditClassPage() {
         payload.classTeacherId = parseInt(formData.classTeacherId);
       }
 
-      const response = await fetch(`http://localhost:3001/classes/${classId}`, {
+      const response = await fetch(`${API_BASE_URL}/classes/${classId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

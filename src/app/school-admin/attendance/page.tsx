@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Calendar as CalendarIcon, Users, TrendingUp, CheckCircle, XCircle, Clock, Download, Eye, Edit, Trash2 } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_BASE_URL } from '@/lib/api';
 
 interface Class {
   id: number;
@@ -77,7 +78,7 @@ export default function SchoolAdminAttendancePage() {
   const fetchClasses = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3001/classes', {
+      const response = await fetch(`${API_BASE_URL}/classes`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -97,7 +98,7 @@ export default function SchoolAdminAttendancePage() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3001/students/class/${selectedClass}`, {
+      const response = await fetch(`${API_BASE_URL}/students/class/${selectedClass}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -117,7 +118,7 @@ export default function SchoolAdminAttendancePage() {
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(
-        `http://localhost:3001/attendance/class/${selectedClass}?date=${selectedDate}`,
+        `${API_BASE_URL}/attendance/class/${selectedClass}?date=${selectedDate}`,
         {
           headers: { 'Authorization': `Bearer ${token}` }
         }
@@ -146,7 +147,7 @@ export default function SchoolAdminAttendancePage() {
 
       // Fetch all attendance records for the month
       const response = await fetch(
-        `http://localhost:3001/attendance/class/${selectedClass}?startDate=${startDate}&endDate=${endDate}`,
+        `${API_BASE_URL}/attendance/class/${selectedClass}?startDate=${startDate}&endDate=${endDate}`,
         {
           headers: { 'Authorization': `Bearer ${token}` }
         }
@@ -263,7 +264,7 @@ export default function SchoolAdminAttendancePage() {
       
       console.log('Submitting attendance:', payload);
       
-      const response = await fetch('http://localhost:3001/attendance', {
+      const response = await fetch(`${API_BASE_URL}/attendance`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -310,7 +311,7 @@ export default function SchoolAdminAttendancePage() {
     if (result.isConfirmed) {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:3001/attendance/${recordId}`, {
+        const response = await fetch(`${API_BASE_URL}/attendance/${recordId}`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });

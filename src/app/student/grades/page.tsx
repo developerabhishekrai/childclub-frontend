@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Search, TrendingUp, TrendingDown, Award, BookOpen, Target, BarChart3, Download } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_BASE_URL } from '@/lib/api';
 
 interface GradedSubmission {
   id: number;
@@ -98,7 +99,7 @@ export default function StudentGradesPage() {
       console.log('Fetching grades for student userId:', userId);
       
       // Fetch submissions for this student
-      const response = await fetch(`http://localhost:3001/submissions/student/${userId}`, {
+      const response = await fetch(`${API_BASE_URL}/submissions/student/${userId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

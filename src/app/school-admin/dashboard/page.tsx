@@ -24,7 +24,7 @@ import {
 } from 'lucide-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Link from 'next/link';
-import { getStoredUser, getStoredToken } from '@/lib/api';
+import { getStoredUser, getStoredToken, API_BASE_URL } from '@/lib/api';
 
 // Custom CSS for enhanced styling
 const customStyles = `
@@ -288,7 +288,7 @@ export default function SchoolAdminDashboard() {
       };
 
       // Fetch dashboard stats (no schoolId needed in URL, it comes from JWT)
-      const statsResponse = await fetch(`http://localhost:3001/dashboard/stats`, { headers });
+      const statsResponse = await fetch(`${API_BASE_URL}/dashboard/stats`, { headers });
       if (statsResponse.ok) {
         const statsData = await statsResponse.json();
         console.log('Dashboard Stats Response:', statsData);
@@ -319,7 +319,7 @@ export default function SchoolAdminDashboard() {
       }
 
       // Fetch school info (using JWT token's schoolId)
-      const schoolResponse = await fetch(`http://localhost:3001/schools/me`, { headers });
+      const schoolResponse = await fetch(`${API_BASE_URL}/schools/me`, { headers });
       if (schoolResponse.ok) {
         const schoolData = await schoolResponse.json();
         console.log('School Info Response:', schoolData);
@@ -337,7 +337,7 @@ export default function SchoolAdminDashboard() {
       }
 
       // Fetch students for this school
-      const studentsResponse = await fetch(`http://localhost:3001/students`, { headers });
+      const studentsResponse = await fetch(`${API_BASE_URL}/students`, { headers });
       if (studentsResponse.ok) {
         const studentsData = await studentsResponse.json();
         console.log('Students Response:', studentsData);
@@ -347,7 +347,7 @@ export default function SchoolAdminDashboard() {
       }
 
       // Fetch teachers for this school
-      const teachersResponse = await fetch(`http://localhost:3001/teachers`, { headers });
+      const teachersResponse = await fetch(`${API_BASE_URL}/teachers`, { headers });
       if (teachersResponse.ok) {
         const teachersData = await teachersResponse.json();
         console.log('Teachers Response:', teachersData);
@@ -357,7 +357,7 @@ export default function SchoolAdminDashboard() {
       }
 
       // Fetch classes for this school
-      const classesResponse = await fetch(`http://localhost:3001/classes`, { headers });
+      const classesResponse = await fetch(`${API_BASE_URL}/classes`, { headers });
       if (classesResponse.ok) {
         const classesData = await classesResponse.json();
         console.log('Classes Response:', classesData);
@@ -367,7 +367,7 @@ export default function SchoolAdminDashboard() {
       }
 
       // Fetch calendar events for this school
-      const eventsResponse = await fetch(`http://localhost:3001/calendar/upcoming?limit=5`, { headers });
+      const eventsResponse = await fetch(`${API_BASE_URL}/calendar/upcoming?limit=5`, { headers });
       if (eventsResponse.ok) {
         const eventsData = await eventsResponse.json();
         console.log('Calendar Events Response:', eventsData);
@@ -403,7 +403,7 @@ export default function SchoolAdminDashboard() {
         return;
       }
 
-      const response = await fetch(`http://localhost:3001/students/${studentId}/status`, {
+      const response = await fetch(`${API_BASE_URL}/students/${studentId}/status`, {
         method: 'PATCH',
         headers: { 
           'Authorization': `Bearer ${token}`,
@@ -446,7 +446,7 @@ export default function SchoolAdminDashboard() {
           return;
         }
 
-        const response = await fetch(`http://localhost:3001/students/${studentId}`, {
+        const response = await fetch(`${API_BASE_URL}/students/${studentId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -479,7 +479,7 @@ export default function SchoolAdminDashboard() {
           return;
         }
 
-        const response = await fetch(`http://localhost:3001/teachers/${teacherId}`, {
+        const response = await fetch(`${API_BASE_URL}/teachers/${teacherId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -511,7 +511,7 @@ export default function SchoolAdminDashboard() {
         return;
       }
 
-      const response = await fetch(`http://localhost:3001/teachers/${teacherId}`, {
+      const response = await fetch(`${API_BASE_URL}/teachers/${teacherId}`, {
         method: 'PUT',
         headers: { 
           'Authorization': `Bearer ${token}`,

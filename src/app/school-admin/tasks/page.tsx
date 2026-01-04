@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Search, Plus, Edit, Trash2, Eye, Filter, Download, Calendar, Clock, Users, BookOpen, AlertCircle, CheckCircle, Clock3 } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_BASE_URL } from '@/lib/api';
 
 interface Task {
   id: number;
@@ -74,7 +75,7 @@ export default function TasksPage() {
       const token = localStorage.getItem('token');
       
       // Fetch all assignments for the school (including those created by teachers)
-      const response = await fetch(`http://localhost:3001/assignments`, {
+      const response = await fetch(`${API_BASE_URL}/assignments`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -106,7 +107,7 @@ export default function TasksPage() {
   const fetchClasses = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3001/classes', {
+      const response = await fetch(`${API_BASE_URL}/classes`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -124,7 +125,7 @@ export default function TasksPage() {
   const fetchTeachers = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3001/teachers', {
+      const response = await fetch(`${API_BASE_URL}/teachers`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -142,7 +143,7 @@ export default function TasksPage() {
   const fetchStudents = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3001/students', {
+      const response = await fetch(`${API_BASE_URL}/students`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -305,7 +306,7 @@ export default function TasksPage() {
     if (result.isConfirmed) {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:3001/assignments/${taskId}`, {
+        const response = await fetch(`${API_BASE_URL}/assignments/${taskId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`

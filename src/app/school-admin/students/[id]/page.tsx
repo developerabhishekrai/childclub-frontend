@@ -10,6 +10,7 @@ import {
   Trash2, RefreshCw
 } from 'lucide-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { API_BASE_URL } from '@/lib/api';
 
 interface StudentDetail {
   id: number;
@@ -71,7 +72,7 @@ export default function SchoolAdminStudentDetailPage() {
         throw new Error('Authentication required');
       }
 
-      const response = await fetch(`http://localhost:3001/students/${studentId}`, {
+      const response = await fetch(`${API_BASE_URL}/students/${studentId}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -103,7 +104,7 @@ export default function SchoolAdminStudentDetailPage() {
         return;
       }
 
-      const response = await fetch(`http://localhost:3001/students/${studentId}/status`, {
+      const response = await fetch(`${API_BASE_URL}/students/${studentId}/status`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -136,7 +137,7 @@ export default function SchoolAdminStudentDetailPage() {
         return;
       }
 
-      const response = await fetch(`http://localhost:3001/students/${studentId}`, {
+      const response = await fetch(`${API_BASE_URL}/students/${studentId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

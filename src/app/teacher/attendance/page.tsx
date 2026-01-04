@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Calendar as CalendarIcon, Users, CheckCircle, XCircle, Clock, AlertCircle, Save, BarChart3 } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_BASE_URL } from '@/lib/api';
 
 interface Class {
   id: number;
@@ -55,7 +56,7 @@ export default function TeacherAttendancePage() {
       const userId = localStorage.getItem('userId');
       
       // Fetch teacher's classes
-      const response = await fetch(`http://localhost:3001/teachers/user/${userId}/classes`, {
+      const response = await fetch(`${API_BASE_URL}/teachers/user/${userId}/classes`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -64,7 +65,7 @@ export default function TeacherAttendancePage() {
         setClasses(data);
       } else {
         // Fallback to all classes if teacher-specific endpoint doesn't exist
-        const allClassesResponse = await fetch('http://localhost:3001/classes', {
+        const allClassesResponse = await fetch(`${API_BASE_URL}/classes`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (allClassesResponse.ok) {
@@ -90,7 +91,7 @@ export default function TeacherAttendancePage() {
       const token = localStorage.getItem('token');
       
       // Use correct endpoint: /students/class/${classId}
-      const response = await fetch(`http://localhost:3001/students/class/${classId}`, {
+      const response = await fetch(`${API_BASE_URL}/students/class/${classId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -121,7 +122,7 @@ export default function TeacherAttendancePage() {
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(
-        `http://localhost:3001/attendance/class/${classId}?date=${date}`,
+        `${API_BASE_URL}/attendance/class/${classId}?date=${date}`,
         {
           headers: { 'Authorization': `Bearer ${token}` },
         }
@@ -202,7 +203,7 @@ export default function TeacherAttendancePage() {
 
       console.log('Teacher submitting attendance:', payload);
 
-      const response = await fetch('http://localhost:3001/attendance', {
+      const response = await fetch(`${API_BASE_URL}/attendance`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { API_BASE_URL } from '@/lib/api';
 
 interface DashboardStats {
   totalSubjects: number;
@@ -79,7 +80,7 @@ export default function StudentDashboard() {
       const token = localStorage.getItem('token');
       
       if (userId && token) {
-        const response = await fetch(`http://localhost:3001/students/by-user/${userId}`, {
+        const response = await fetch(`${API_BASE_URL}/students/by-user/${userId}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -137,7 +138,7 @@ export default function StudentDashboard() {
       console.log('Fetching data for userId:', userId);
 
       // Fetch student data using user ID
-      const studentResponse = await fetch(`http://localhost:3001/students/by-user/${userId}`, {
+      const studentResponse = await fetch(`${API_BASE_URL}/students/by-user/${userId}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -156,7 +157,7 @@ export default function StudentDashboard() {
 
       // Fetch assignments for the student (from assignments table)
       console.log('Fetching assignments for userId:', userId);
-      const assignmentsResponse = await fetch(`http://localhost:3001/assignments/by-student/${userId}`, {
+      const assignmentsResponse = await fetch(`${API_BASE_URL}/assignments/by-student/${userId}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -172,7 +173,7 @@ export default function StudentDashboard() {
         console.log('Assignments Data:', assignmentsData);
 
         // Fetch submissions to determine status
-        const submissionsRes = await fetch(`http://localhost:3001/submissions/student/${userId}`, {
+        const submissionsRes = await fetch(`${API_BASE_URL}/submissions/student/${userId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -232,7 +233,7 @@ export default function StudentDashboard() {
       }
 
       // Fetch submissions for the student (using actual student ID)
-      const submissionsResponse = await fetch(`http://localhost:3001/submissions/student/${actualStudentId}`, {
+      const submissionsResponse = await fetch(`${API_BASE_URL}/submissions/student/${actualStudentId}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -261,7 +262,7 @@ export default function StudentDashboard() {
       const averageScore = gradedCount > 0 ? (totalScore / gradedCount).toFixed(1) : 0;
 
       // Fetch attendance stats (using actual student ID)
-      const attendanceResponse = await fetch(`http://localhost:3001/attendance/stats/student/${actualStudentId}`, {
+      const attendanceResponse = await fetch(`${API_BASE_URL}/attendance/stats/student/${actualStudentId}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -279,7 +280,7 @@ export default function StudentDashboard() {
       const totalSubjects = studentData.subjects?.length || 6;
 
       // Fetch calendar events
-      const eventsResponse = await fetch('http://localhost:3001/calendar/upcoming?limit=5', {
+      const eventsResponse = await fetch(`${API_BASE_URL}/calendar/upcoming?limit=5`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },

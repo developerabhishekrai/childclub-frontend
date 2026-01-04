@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Search, Plus, Edit, Trash2, Eye, Calendar, Clock, Users, BookOpen, AlertCircle, CheckCircle } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_BASE_URL } from '@/lib/api';
 
 interface Task {
   id: number;
@@ -68,7 +69,7 @@ export default function TeacherTasksPage() {
       const user = JSON.parse(localStorage.getItem('user') || '{}');
       
       // Fetch assignments relevant to this teacher only
-      const response = await fetch(`http://localhost:3001/assignments/my-teacher-assignments`, {
+      const response = await fetch(`${API_BASE_URL}/assignments/my-teacher-assignments`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -98,7 +99,7 @@ export default function TeacherTasksPage() {
   const fetchClasses = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3001/classes', {
+      const response = await fetch(`${API_BASE_URL}/classes`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -116,7 +117,7 @@ export default function TeacherTasksPage() {
   const fetchStudents = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3001/students', {
+      const response = await fetch(`${API_BASE_URL}/students`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -194,7 +195,7 @@ export default function TeacherTasksPage() {
     if (result.isConfirmed) {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:3001/assignments/${taskId}`, {
+        const response = await fetch(`${API_BASE_URL}/assignments/${taskId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`

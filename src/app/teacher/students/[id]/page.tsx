@@ -8,6 +8,7 @@ import {
   School, BookOpen, Users, AlertCircle, Edit, Download,
   Clock, CheckCircle, XCircle, FileText, Award, Activity
 } from 'lucide-react';
+import { API_BASE_URL } from '@/lib/api';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 interface StudentDetail {
@@ -70,7 +71,7 @@ export default function TeacherStudentDetailPage() {
         throw new Error('Authentication required');
       }
 
-      const response = await fetch(`http://localhost:3001/students/${studentId}`, {
+      const response = await fetch(`${API_BASE_URL}/students/${studentId}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',

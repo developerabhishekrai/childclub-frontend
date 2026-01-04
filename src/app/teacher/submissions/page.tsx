@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { API_BASE_URL } from '@/lib/api';
 import { 
   ArrowLeft, 
   FileText, 
@@ -106,7 +107,7 @@ export default function TeacherSubmissionsPage() {
       console.log('[Frontend] Fetching teacher submissions...');
 
       // Fetch submissions for assignments created by this teacher
-      const response = await fetch('http://localhost:3001/submissions/teacher/my-submissions', {
+      const response = await fetch(`${API_BASE_URL}/submissions/teacher/my-submissions`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -217,7 +218,7 @@ export default function TeacherSubmissionsPage() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3001/submissions/${selectedSubmission.id}/review`, {
+      const response = await fetch(`${API_BASE_URL}/submissions/${selectedSubmission.id}/review`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -720,7 +721,7 @@ export default function TeacherSubmissionsPage() {
                           </div>
                           <div className="d-flex gap-2">
                             <a
-                              href={`http://localhost:3001${file.url}`}
+                              href={`${API_BASE_URL}${file.url}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="btn btn-sm btn-outline-primary"
@@ -728,7 +729,7 @@ export default function TeacherSubmissionsPage() {
                               <Eye size={14} className="me-1" /> View
                             </a>
                             <a
-                              href={`http://localhost:3001${file.url}`}
+                              href={`${API_BASE_URL}${file.url}`}
                               download={file.originalName}
                               className="btn btn-sm btn-outline-success"
                             >

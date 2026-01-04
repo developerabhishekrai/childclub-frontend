@@ -5,6 +5,7 @@ import { Calendar, BookOpen, Users, FileText, Tag, Clock, Star, Repeat, ArrowLef
 import Link from 'next/link';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
+import { API_BASE_URL } from '@/lib/api';
 
 export default function CreateAssignmentPage() {
   const router = useRouter();
@@ -78,9 +79,9 @@ export default function CreateAssignmentPage() {
 
       // Fetch classes, teachers, and students in parallel
       const [classesRes, teachersRes, studentsRes] = await Promise.all([
-        fetch('http://localhost:3001/classes', { headers }),
-        fetch('http://localhost:3001/teachers', { headers }),
-        fetch('http://localhost:3001/students', { headers }),
+        fetch(`${API_BASE_URL}/classes`, { headers }),
+        fetch(`${API_BASE_URL}/teachers`, { headers }),
+        fetch(`${API_BASE_URL}/students`, { headers }),
       ]);
 
       if (classesRes.ok) {
@@ -227,7 +228,7 @@ export default function CreateAssignmentPage() {
         return;
       }
 
-      const response = await fetch('http://localhost:3001/assignments', {
+      const response = await fetch(`${API_BASE_URL}/assignments`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

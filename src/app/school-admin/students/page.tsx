@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Users, Search, Filter, Download, Eye, Edit, Trash2, Plus, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { API_BASE_URL } from '@/lib/api';
 
 interface Student {
   id: number;
@@ -48,7 +49,7 @@ export default function StudentsPage() {
       };
 
       // Fetch students from backend with authentication
-      const response = await fetch('http://localhost:3001/students', { headers });
+      const response = await fetch(`${API_BASE_URL}/students`, { headers });
       if (response.ok) {
         const data = await response.json();
         console.log('Students fetched:', data);
@@ -102,7 +103,7 @@ export default function StudentsPage() {
         return;
       }
 
-      const response = await fetch(`http://localhost:3001/students/${studentId}/status`, {
+      const response = await fetch(`${API_BASE_URL}/students/${studentId}/status`, {
         method: 'PATCH',
         headers: { 
           'Authorization': `Bearer ${token}`,
@@ -135,7 +136,7 @@ export default function StudentsPage() {
           return;
         }
 
-        const response = await fetch(`http://localhost:3001/students/${studentId}`, {
+        const response = await fetch(`${API_BASE_URL}/students/${studentId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`,

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Calendar as CalendarIcon, TrendingUp, Award, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_BASE_URL } from '@/lib/api';
 
 interface AttendanceRecord {
   id: number;
@@ -81,7 +82,7 @@ export default function StudentAttendancePage() {
 
       // Fetch attendance records
       const recordsResponse = await fetch(
-        `http://localhost:3001/attendance/student/${userId}?startDate=${startDate}&endDate=${endDate}`,
+        `${API_BASE_URL}/attendance/student/${userId}?startDate=${startDate}&endDate=${endDate}`,
         {
           headers: { 'Authorization': `Bearer ${token}` }
         }
@@ -94,7 +95,7 @@ export default function StudentAttendancePage() {
 
       // Fetch attendance stats
       const statsResponse = await fetch(
-        `http://localhost:3001/attendance/stats/student/${userId}?startDate=${startDate}&endDate=${endDate}`,
+        `${API_BASE_URL}/attendance/stats/student/${userId}?startDate=${startDate}&endDate=${endDate}`,
         {
           headers: { 'Authorization': `Bearer ${token}` }
         }

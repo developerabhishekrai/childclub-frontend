@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { User, Mail, Phone, MapPin, Calendar, BookOpen, ArrowLeft, Sparkles, RefreshCw, Eye, EyeOff, Copy, Check } from 'lucide-react';
 import Link from 'next/link';
 import { showSuccess, showError, showLoading, closeLoading } from '@/lib/sweetalert';
+import { API_BASE_URL } from '@/lib/api';
 import { validatePassword, generateSecurePassword, getStrengthColor, getStrengthLabel } from '@/lib/password-validator';
 
 interface Class {
@@ -64,7 +65,7 @@ export default function AddStudentPage() {
           setFormData(prev => ({ ...prev, schoolId: String(schoolId) }));
         }
 
-        const response = await fetch('http://localhost:3001/classes', {
+        const response = await fetch(`${API_BASE_URL}/classes`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -215,7 +216,7 @@ export default function AddStudentPage() {
       console.log('✅ SchoolId type:', typeof studentData.schoolId, 'Value:', studentData.schoolId);
 
       // Make API call to create student
-      const response = await fetch('http://localhost:3001/students', {
+      const response = await fetch(`${API_BASE_URL}/students`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

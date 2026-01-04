@@ -5,7 +5,7 @@ import { User, Mail, Phone, MapPin, Calendar, BookOpen, GraduationCap, Briefcase
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { teachersApi } from '@/lib/api-endpoints';
-import { ApiError, getStoredUser, getStoredToken, apiGet } from '@/lib/api';
+import { ApiError, getStoredUser, getStoredToken, apiGet, API_BASE_URL } from '@/lib/api';
 import { validatePassword, generateSecurePassword, getStrengthColor, getStrengthLabel } from '@/lib/password-validator';
 
 interface Class {
@@ -71,7 +71,7 @@ export default function AddTeacherPage() {
 
       console.log('Making API call to /subjects...');
       
-      const directResponse = await fetch('http://localhost:3001/subjects', {
+      const directResponse = await fetch(`${API_BASE_URL}/subjects`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -131,7 +131,7 @@ export default function AddTeacherPage() {
       console.log('Making API call to /classes...');
       
       // Try direct fetch as alternative
-      const directResponse = await fetch('http://localhost:3001/classes', {
+      const directResponse = await fetch(`${API_BASE_URL}/classes`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { getStoredUser, clearAuthData } from '@/lib/api'
+import { getStoredUser, clearAuthData, API_BASE_URL } from '@/lib/api'
 
 interface SuperAdminData {
   firstName?: string
@@ -61,7 +61,7 @@ export default function SuperAdminDashboard() {
         const token = localStorage.getItem('token')
         
         // Fetch super admin stats from dedicated endpoint
-        const statsResponse = await fetch('http://localhost:3001/dashboard/super-admin/stats', {
+        const statsResponse = await fetch(`${API_BASE_URL}/dashboard/super-admin/stats`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -102,7 +102,7 @@ export default function SuperAdminDashboard() {
       try {
         const token = localStorage.getItem('token')
         
-        const response = await fetch('http://localhost:3001/contact', {
+        const response = await fetch(`${API_BASE_URL}/contact`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -114,7 +114,7 @@ export default function SuperAdminDashboard() {
         }
 
         // Fetch contact stats
-        const statsResponse = await fetch('http://localhost:3001/contact/stats', {
+        const statsResponse = await fetch(`${API_BASE_URL}/contact/stats`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },

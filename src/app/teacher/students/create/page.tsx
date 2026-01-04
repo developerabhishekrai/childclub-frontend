@@ -6,6 +6,7 @@ import { ArrowLeft, Save, User, Mail, Phone, MapPin, Calendar, Users, Heart } fr
 import Link from 'next/link';
 import Swal from 'sweetalert2';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { API_BASE_URL } from '@/lib/api';
 
 export default function CreateStudentPage() {
   const router = useRouter();
@@ -53,7 +54,7 @@ export default function CreateStudentPage() {
           return;
         }
 
-        const teacherResponse = await fetch(`http://localhost:3001/teachers/${userId}`, {
+        const teacherResponse = await fetch(`${API_BASE_URL}/teachers/${userId}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -158,7 +159,7 @@ export default function CreateStudentPage() {
 
       console.log('Creating student:', studentData);
 
-      const response = await fetch('http://localhost:3001/students', {
+      const response = await fetch(`${API_BASE_URL}/students`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

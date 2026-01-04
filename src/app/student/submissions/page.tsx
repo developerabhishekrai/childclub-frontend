@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Search, Download, Eye, Edit, CheckCircle, Clock, XCircle, FileText, Image as ImageIcon, File } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_BASE_URL } from '@/lib/api';
 
 interface Submission {
   id: number;
@@ -84,7 +85,7 @@ export default function StudentSubmissionsPage() {
       console.log('Fetching submissions for student userId:', userId);
       
       // Fetch submissions for this student
-      const response = await fetch(`http://localhost:3001/submissions/student/${userId}`, {
+      const response = await fetch(`${API_BASE_URL}/submissions/student/${userId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -152,7 +153,7 @@ export default function StudentSubmissionsPage() {
         const formData = new FormData();
         formData.append('file', file);
 
-        const response = await fetch('http://localhost:3001/uploads/submission', {
+        const response = await fetch(`${API_BASE_URL}/uploads/submission`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -194,7 +195,7 @@ export default function StudentSubmissionsPage() {
         submittedAt: new Date().toISOString(),
       };
 
-      const response = await fetch(`http://localhost:3001/submissions/${selectedSubmission.id}`, {
+      const response = await fetch(`${API_BASE_URL}/submissions/${selectedSubmission.id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -605,7 +606,7 @@ export default function StudentSubmissionsPage() {
                                 <span className="ms-2">{file.filename}</span>
                               </div>
                               <a
-                                href={`http://localhost:3001${file.path}`}
+                                href={`${API_BASE_URL}${file.path}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="btn btn-sm btn-outline-primary"

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Users, UserPlus, Search, Mail, Phone, Calendar, User, BookOpen, ChevronRight, ChevronLeft, Download, Filter, Grid, List } from 'lucide-react';
 import Link from 'next/link';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { API_BASE_URL } from '@/lib/api';
 
 interface Student {
   id: number;
@@ -64,7 +65,7 @@ export default function TeacherStudentsPage() {
         throw new Error('Authentication required');
       }
 
-      const response = await fetch('http://localhost:3001/teachers/my/students', {
+      const response = await fetch(`${API_BASE_URL}/teachers/my/students`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',

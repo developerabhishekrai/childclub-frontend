@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { getStoredUser, clearAuthData } from '@/lib/api';
+import { getStoredUser, clearAuthData, API_BASE_URL } from '@/lib/api';
 import { 
   Search, 
   Plus, 
@@ -117,7 +117,7 @@ export default function SuperAdminSchoolsList() {
     const fetchData = async () => {
       try {
         // Fetch schools data
-        const schoolsResponse = await fetch('http://localhost:3001/schools', {
+        const schoolsResponse = await fetch(`${API_BASE_URL}/schools`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -225,7 +225,7 @@ export default function SuperAdminSchoolsList() {
 
   const refreshData = async () => {
     try {
-      const schoolsResponse = await fetch('http://localhost:3001/schools', {
+      const schoolsResponse = await fetch(`${API_BASE_URL}/schools`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
@@ -267,7 +267,7 @@ export default function SuperAdminSchoolsList() {
   const handleApproveSchool = async (schoolId: string) => {
     setActionLoading(schoolId);
     try {
-      const response = await fetch(`http://localhost:3001/schools/${schoolId}/approve`, {
+      const response = await fetch(`${API_BASE_URL}/schools/${schoolId}/approve`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -297,7 +297,7 @@ export default function SuperAdminSchoolsList() {
 
     setActionLoading(schoolId);
     try {
-      const response = await fetch(`http://localhost:3001/schools/${schoolId}/reject`, {
+      const response = await fetch(`${API_BASE_URL}/schools/${schoolId}/reject`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -327,7 +327,7 @@ export default function SuperAdminSchoolsList() {
 
     setActionLoading(schoolId);
     try {
-      const response = await fetch(`http://localhost:3001/schools/${schoolId}/suspend`, {
+      const response = await fetch(`${API_BASE_URL}/schools/${schoolId}/suspend`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -368,7 +368,7 @@ export default function SuperAdminSchoolsList() {
 
     setActionLoading(schoolId);
     try {
-      const response = await fetch(`http://localhost:3001/schools/${schoolId}`, {
+      const response = await fetch(`${API_BASE_URL}/schools/${schoolId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,

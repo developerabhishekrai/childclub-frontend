@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Save, User, Mail, Phone, MapPin, Calendar, BookOpen, Users, Key, RefreshCw, Eye, EyeOff, Copy, Check } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { apiGet, apiPut, getStoredToken, getStoredUser } from '@/lib/api';
+import { apiGet, apiPut, getStoredToken, getStoredUser, API_BASE_URL } from '@/lib/api';
 import { validatePassword, generateSecurePassword, getStrengthColor, getStrengthLabel } from '@/lib/password-validator';
 import Swal from 'sweetalert2';
 
@@ -92,7 +92,7 @@ export default function StudentEditPage() {
         return;
       }
 
-      const response = await fetch('http://localhost:3001/classes', {
+      const response = await fetch(`${API_BASE_URL}/classes`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -250,7 +250,7 @@ export default function StudentEditPage() {
       }
 
       // Call API to reset password
-      const response = await fetch(`http://localhost:3001/students/${studentId}/reset-password`, {
+      const response = await fetch(`${API_BASE_URL}/students/${studentId}/reset-password`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

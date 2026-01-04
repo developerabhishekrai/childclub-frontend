@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { storeToken, storeUser } from '@/lib/api'
+import { storeToken, storeUser, API_BASE_URL } from '@/lib/api'
 
 export default function AdminLogin() {
   const [formData, setFormData] = useState({
@@ -27,7 +27,7 @@ export default function AdminLogin() {
     setError('')
 
     try {
-      const response = await fetch('http://localhost:3001/auth/login', {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

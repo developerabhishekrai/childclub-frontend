@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { API_BASE_URL } from '@/lib/api';
 
 interface DashboardStats {
   totalClasses: number;
@@ -77,7 +78,7 @@ export default function TeacherDashboard() {
       const token = localStorage.getItem('token');
       
       if (userId && token) {
-        const response = await fetch(`http://localhost:3001/teachers/${userId}`, {
+        const response = await fetch(`${API_BASE_URL}/teachers/${userId}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -111,7 +112,7 @@ export default function TeacherDashboard() {
       }
 
       // Fetch teacher's classes
-      const classesResponse = await fetch('http://localhost:3001/teachers/my-classes', {
+      const classesResponse = await fetch(`${API_BASE_URL}/teachers/my-classes`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -125,7 +126,7 @@ export default function TeacherDashboard() {
       }
 
       // Fetch teacher's students from assigned classes
-      const studentsResponse = await fetch('http://localhost:3001/teachers/my/students', {
+      const studentsResponse = await fetch(`${API_BASE_URL}/teachers/my/students`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -159,7 +160,7 @@ export default function TeacherDashboard() {
           const attendancePromises = teacherClasses.map(async (classItem) => {
             try {
               const attendanceResponse = await fetch(
-                `http://localhost:3001/attendance/class/${classItem.classId}?date=${today}`,
+                `${API_BASE_URL}/attendance/class/${classItem.classId}?date=${today}`,
                 {
                   headers: {
                     'Authorization': `Bearer ${token}`,
@@ -192,7 +193,7 @@ export default function TeacherDashboard() {
       }
 
       // Fetch real dashboard stats from API
-      const statsResponse = await fetch('http://localhost:3001/dashboard/stats', {
+      const statsResponse = await fetch(`${API_BASE_URL}/dashboard/stats`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -224,7 +225,7 @@ export default function TeacherDashboard() {
       }
 
       // Fetch calendar events
-      const eventsResponse = await fetch('http://localhost:3001/calendar/upcoming?limit=5', {
+      const eventsResponse = await fetch(`${API_BASE_URL}/calendar/upcoming?limit=5`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -239,7 +240,7 @@ export default function TeacherDashboard() {
       }
 
       // Fetch recent activities
-      const activitiesResponse = await fetch('http://localhost:3001/dashboard/activities', {
+      const activitiesResponse = await fetch(`${API_BASE_URL}/dashboard/activities`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
