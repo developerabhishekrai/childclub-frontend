@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Toaster } from 'react-hot-toast'
-import ApiUrlLogger from './components/ApiUrlLogger'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,7 +32,6 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <ApiUrlLogger />
         {children}
         <Toaster 
           position="top-right"
@@ -43,6 +41,18 @@ export default function RootLayout({
               background: '#363636',
               color: '#fff',
             },
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const apiUrl = '${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}';
+                console.log('%c🔗 Backend API URL:', 'color: #4CAF50; font-weight: bold; font-size: 16px;', apiUrl);
+                console.log('%c📡 API Base URL:', 'color: #2196F3; font-weight: bold; font-size: 14px;', apiUrl);
+                console.log('%c🌐 Environment:', 'color: #FF9800; font-weight: bold;', '${process.env.NODE_ENV || 'development'}');
+              })();
+            `,
           }}
         />
       </body>
