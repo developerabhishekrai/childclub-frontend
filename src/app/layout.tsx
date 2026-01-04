@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Toaster } from 'react-hot-toast'
+import ApiUrlLogger from './components/ApiUrlLogger'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -32,6 +33,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
+        <ApiUrlLogger />
         {children}
         <Toaster 
           position="top-right"
